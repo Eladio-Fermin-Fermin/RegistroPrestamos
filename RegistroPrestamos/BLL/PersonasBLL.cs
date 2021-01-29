@@ -1,6 +1,10 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using RegistroPrestamos.DAL;
+using RegistroPrestamos.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace RegistroPrestamos.BLL
@@ -8,10 +12,10 @@ namespace RegistroPrestamos.BLL
     public class PersonasBLL
     {
         private Contexto Contexto { get; set; }
-        public PersonasBLL(Contexto contexto)
+       /* public PersonasBLL(Contexto contexto)
         {
             this.Contexto = contexto;
-        }
+        }*/
         public async Task<bool> Guardar(Personas persona)
         {
             if (!await Existe(persona.PersonaId))
