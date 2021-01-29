@@ -8,4 +8,9 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SQLite" Version="5.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="BLL\" />
+    <Folder Include="DAL\" />
+  </ItemGroup>
+
 </Project>
