@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RegistroPrestamos.Models
 {
-    public class Prestamo
+    public class Prestamos
     {
         [Key]
         public int PrestamoId { get; set; }

@@ -11,11 +11,13 @@ namespace RegistroPrestamos.BLL
 {
     public class PersonasBLL
     {
-        private Contexto Contexto { get; set; }
-       /* public PersonasBLL(Contexto contexto)
+        private Contexto contexto { get; set; }
+
+        public PersonasBLL(Contexto contexto)
         {
-            this.Contexto = contexto;
-        }*/
+            this.contexto = contexto;
+        }
+
         public async Task<bool> Guardar(Personas persona)
         {
             if (!await Existe(persona.PersonaId))
@@ -27,10 +29,9 @@ namespace RegistroPrestamos.BLL
         public async Task<bool> Existe(int id)
         {
             bool ok = false;
-
             try
             {
-                ok = await Contexto.Personas.AnyAsync(p => p.PersonaId == id);
+                ok = await contexto.Personas.AnyAsync(p => p.PersonaId == id);
             }
             catch (Exception)
             {
@@ -44,41 +45,36 @@ namespace RegistroPrestamos.BLL
         private async Task<bool> Insertar(Personas persona)
         {
             bool ok = false;
+
             try
             {
-                await Contexto.Personas.AddAsync(persona);
-                ok = await Contexto.SaveChangesAsync() > 0;
+                await contexto.Personas.AddAsync(persona);
+                ok = await contexto.SaveChangesAsync() > 0;
             }
             catch (Exception)
             {
 
                 throw;
             }
+
             return ok;
         }
 
         private async Task<bool> Modificar(Personas persona)
         {
             bool ok = false;
+
             try
             {
-                var aux = Contexto
-                    .Set<Personas>()
-                    .Local.FirstOrDefault(p => p.PersonaId == persona.PersonaId);
-
-                if (aux != null)
-                {
-                    Contexto.Entry(aux).State = EntityState.Detached;
-                }
-
-                Contexto.Entry(persona).State = EntityState.Modified;
-                ok = await Contexto.SaveChangesAsync() > 0;
+                contexto.Entry(persona).State = EntityState.Modified;
+                ok = await contexto.SaveChangesAsync() > 0;
             }
             catch (Exception)
             {
 
                 throw;
             }
+
             return ok;
         }
 
@@ -88,10 +84,7 @@ namespace RegistroPrestamos.BLL
 
             try
             {
-                persona = await Contexto.Personas
-                   .Where(p => p.PersonaId == id)
-                   .AsNoTracking()
-                   .FirstOrDefaultAsync();
+                persona = await contexto.Personas.FindAsync(id);
             }
             catch (Exception)
             {
@@ -105,13 +98,14 @@ namespace RegistroPrestamos.BLL
         public async Task<bool> Eliminar(int id)
         {
             bool ok = false;
+
             try
             {
-                var registro = await Contexto.Personas.FindAsync(id);
+                var registro = await contexto.Personas.FindAsync(id);
                 if (registro != null)
                 {
-                    Contexto.Entry(registro).State = EntityState.Deleted;
-                    ok = await Contexto.SaveChangesAsync() > 0;
+                    contexto.Personas.Remove(registro);
+                    ok = await contexto.SaveChangesAsync() > 0;
                 }
             }
             catch (Exception)
@@ -119,6 +113,7 @@ namespace RegistroPrestamos.BLL
 
                 throw;
             }
+
             return ok;
         }
 
@@ -128,13 +123,15 @@ namespace RegistroPrestamos.BLL
 
             try
             {
-                lista = await Contexto.Personas.ToListAsync();
+                lista = await contexto.Personas.ToListAsync();
             }
             catch (Exception)
             {
 
                 throw;
             }
+
+
             return lista;
         }
 
@@ -144,13 +141,14 @@ namespace RegistroPrestamos.BLL
 
             try
             {
-                lista = await Contexto.Personas.Where(criterio).ToListAsync();
+                lista = await contexto.Personas.Where(criterio).ToListAsync();
             }
             catch (Exception)
             {
 
                 throw;
             }
+
             return lista;
         }
     }

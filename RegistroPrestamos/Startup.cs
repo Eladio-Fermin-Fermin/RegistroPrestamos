@@ -34,9 +34,9 @@ namespace RegistroPrestamos
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
             services.AddBlazoredToast();
-            /*services.AddDbContext<Contexto>(options =>
+            services.AddDbContext<Contexto>(options =>
             options.UseSqlite(Configuration.GetConnectionString("DefaultConnection"))
-            );*/
+            );
             services.AddTransient<PersonasBLL>();
             services.AddTransient<PrestamosBLL>();
         }

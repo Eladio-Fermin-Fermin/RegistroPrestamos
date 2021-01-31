@@ -1,8 +1,6 @@
 ﻿@page "/Personas"
 @page "/Personas/{PersonaId:int}"
-@using BLL
-@using Models
-@inject PersonasBLL PersonasBLL
+
 @inject IToastService toast
 
 <div class="shadow p-3 mb-5 bg-white rounded">
@@ -76,8 +74,12 @@
 </div>
 
 @code{
+
     [Parameter]
     public int PersonaId { get; set; }
+
+    [Inject]
+    private PersonasBLL PersonasBLL { get; set; }
 
     private Personas personas = new Personas();
 
